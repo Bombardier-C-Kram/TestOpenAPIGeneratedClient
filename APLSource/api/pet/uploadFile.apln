@@ -16,6 +16,7 @@
     
     ∇ r←parseArgs args;params
         queryParams←()
+        headerParams←⍬
         ⍝ Path Param
         :If 2≠args.⎕NC'petId'⋄'petId is required' ⎕SIGNAL 100 ⋄ :EndIf
         :If ~isValidPathParam args.petId⋄'petId should be a character vector or a scalar number' ⎕SIGNAL 100 ⋄ :EndIf
@@ -27,6 +28,7 @@
         
         
         ⍝ Body is octet-stream
+        params←''
         :If (0≠args.⎕NC'body') 
         params←args.body
         :EndIf
@@ -41,6 +43,9 @@
         )
         :If 0≠⍴queryParams.⎕NL-⍳9
             r.URL,←'?',args.client.HttpCommand.UrlEncode queryParams
+        :EndIf
+        :If 0≠⍴headerParams
+            r.Headers←headerParams
         :EndIf
     ∇ 
 
@@ -75,7 +80,7 @@
         ⍝ Args is a ns
         ⍝ (
         ⍝   client: Client (required)
-        ⍝   body: Byte Array (required)
+        ⍝   body: Byte Array (optional)
         ⍝   petId: Integer (required)
         ⍝   additionalMetadata: String (not required)
         ⍝ )

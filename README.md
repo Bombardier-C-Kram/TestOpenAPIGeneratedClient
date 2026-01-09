@@ -13,7 +13,7 @@ Some useful links:
 
 ## Generated Client
 
-This client was automatically generated from an OpenAPI specification on 2026-01-08.
+This client was automatically generated from an OpenAPI specification on 2026-01-09.
 
 **Base URL:** `/api/v3`
 

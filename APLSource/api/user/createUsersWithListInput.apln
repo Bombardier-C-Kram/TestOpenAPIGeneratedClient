@@ -13,6 +13,7 @@
     
     ∇ r←parseArgs args;params
         queryParams←()
+        headerParams←⍬
         
         params←()
         ⍝ If we have a body, take the body from the args
@@ -32,6 +33,9 @@
         )
         :If 0≠⍴queryParams.⎕NL-⍳9
             r.URL,←'?',args.client.HttpCommand.UrlEncode queryParams
+        :EndIf
+        :If 0≠⍴headerParams
+            r.Headers←headerParams
         :EndIf
     ∇ 
 
@@ -58,7 +62,7 @@
         ⍝ Args is a ns
         ⍝ (
         ⍝   client: Client (required)
-        ⍝   User: User (required)
+        ⍝   User: User (optional)
         ⍝ )
         ⍝ This is a POST command
         :If 0=args.⎕NC'client'

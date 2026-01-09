@@ -16,6 +16,7 @@
     
     ∇ r←parseArgs args;params
         queryParams←()
+        headerParams←⍬
         ⍝ Query param
         :If (2=args.⎕NC'username')
             queryParams.username←args.username 
@@ -37,6 +38,9 @@
         )
         :If 0≠⍴queryParams.⎕NL-⍳9
             r.URL,←'?',args.client.HttpCommand.UrlEncode queryParams
+        :EndIf
+        :If 0≠⍴headerParams
+            r.Headers←headerParams
         :EndIf
     ∇ 
 

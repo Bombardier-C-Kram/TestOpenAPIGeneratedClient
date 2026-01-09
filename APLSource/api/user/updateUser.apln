@@ -16,6 +16,7 @@
     
     ∇ r←parseArgs args;params
         queryParams←()
+        headerParams←⍬
         ⍝ Path Param
         :If 2≠args.⎕NC'username'⋄'username is required' ⎕SIGNAL 100 ⋄ :EndIf
         :If ~isValidPathParam args.username⋄'username should be a character vector or a scalar number' ⎕SIGNAL 100 ⋄ :EndIf
@@ -39,6 +40,9 @@
         )
         :If 0≠⍴queryParams.⎕NL-⍳9
             r.URL,←'?',args.client.HttpCommand.UrlEncode queryParams
+        :EndIf
+        :If 0≠⍴headerParams
+            r.Headers←headerParams
         :EndIf
     ∇ 
 
@@ -73,7 +77,7 @@
         ⍝ Args is a ns
         ⍝ (
         ⍝   client: Client (required)
-        ⍝   User: User (required)
+        ⍝   User: User (optional)
         ⍝   username: String (required)
         ⍝ )
         ⍝ This is a PUT command
