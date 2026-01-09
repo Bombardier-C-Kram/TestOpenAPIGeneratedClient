@@ -1,0 +1,76 @@
+:Class User
+    ⍝ id: int, optional
+    ⍝ username: str, optional
+    ⍝ firstName: str, optional
+    ⍝ lastName: str, optional
+    ⍝ email: str, optional
+    ⍝ password: str, optional
+    ⍝ phone: str, optional
+    ⍝ userStatus: int, optional
+
+    :field public id ⍝ int
+    :field public username ⍝ str
+    :field public firstName ⍝ str
+    :field public lastName ⍝ str
+    :field public email ⍝ str
+    :field public password ⍝ str
+    :field public phone ⍝ str
+    :field public userStatus ⍝ int
+
+    ∇ make1 args
+        :Access public
+        :Implements constructor
+        ⍝ We will assume correct
+        ⎕THIS ⎕NS args ⍝ Copy args into ⎕THIS
+    ∇
+
+    ∇  build←FormatNS;build
+        :Access public
+        build←()
+        :If (isVarDefined 'id') 
+
+            build.id←id 
+        :EndIf
+
+        :If (isVarDefined 'username') 
+
+            build.username←username 
+        :EndIf
+
+        :If (isVarDefined 'firstName') 
+
+            build.firstName←firstName 
+        :EndIf
+
+        :If (isVarDefined 'lastName') 
+
+            build.lastName←lastName 
+        :EndIf
+
+        :If (isVarDefined 'email') 
+
+            build.email←email 
+        :EndIf
+
+        :If (isVarDefined 'password') 
+
+            build.password←password 
+        :EndIf
+
+        :If (isVarDefined 'phone') 
+
+            build.phone←phone 
+        :EndIf
+
+        :If (isVarDefined 'userStatus') 
+
+            build.userStatus←userStatus 
+        :EndIf
+
+    ∇
+
+    ∇ b←isVarDefined varName;_
+        :Trap 0 ⋄ _←⎕VGET varName ⋄ b←1 ⋄ :Else ⋄ b←0 ⋄ :EndTrap
+        ⍝ TODO This is messy. Surely there is a better way
+    ∇
+:EndClass

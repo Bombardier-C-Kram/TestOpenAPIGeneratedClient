@@ -1,0 +1,68 @@
+:Class Pet
+    ⍝ id: int, optional
+    ⍝ name: str, required
+    ⍝ category: namespace, REFERENCE, optional
+    ⍝ photoUrls: array[str], required
+    ⍝ tags: array[namespace], REFERENCE, optional
+    ⍝ status: str, optional
+
+    :field public id ⍝ int
+    :field public name ⍝ str
+    :field public category ⍝ namespace
+    :field public photoUrls ⍝ array[str]
+    :field public tags ⍝ array[namespace]
+    :field public status ⍝ str
+
+    ∇ make1 args
+        :Access public
+        :Implements constructor
+        ⍝ We will assume correct
+        ⎕THIS ⎕NS args ⍝ Copy args into ⎕THIS
+    ∇
+
+    ∇  build←FormatNS;build
+        :Access public
+        build←()
+        :If (isVarDefined 'id') 
+
+            build.id←id 
+        :EndIf
+
+        :If (isVarDefined 'name') 
+
+            build.name←name 
+        :EndIf
+
+        :If (isVarDefined 'category') 
+            ⍝REFERENCE
+                build.category←category.FormatNS
+        :EndIf
+
+        :If (isVarDefined 'photoUrls') 
+
+            build.photoUrls←1∘/⊆photoUrls 
+        :EndIf
+
+        :If (isVarDefined 'tags') 
+            ⍝REFERENCE
+            ⍝ARRAY
+            ⍝ Check if array is empty
+            :If 0∊⍴tags
+                build.tags←⍬
+            :Else
+                build.tags←1∘/tags.FormatNS ⍝ Ensure minimum rank 1
+            :EndIf 
+        :EndIf
+
+        :If (isVarDefined 'status') 
+
+            build.status←status 
+        :EndIf
+
+    ∇
+
+    ∇ b←isVarDefined varName;_
+        :Trap 0 ⋄ _←⎕VGET varName ⋄ b←1 ⋄ :Else ⋄ b←0 ⋄ :EndTrap
+        ⍝ TODO This is messy. Surely there is a better way
+    ∇
+:EndClass

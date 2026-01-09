@@ -1,0 +1,97 @@
+:Namespace uploadFile
+    ⍝ POST: /pet/{petId}/uploadImage
+    ⍝ Uploads an image.
+    ⍝ Upload image of the pet.
+    
+    ⍝ Parameters:
+    ⍝ petId: Integer, required, Path
+    ⍝ additionalMetadata: String, optional, Query
+    
+    isValidPathParam←{
+        ⍝ True if argument is a character vector or a scalar number
+        isChar←(0=10|⎕DR)⍵
+        isScalarNum←(0=≢⍴⍵)∧2|⎕DR ⍵
+        isChar ∨ isScalarNum
+    }
+    
+    ∇ r←parseArgs args;params
+        queryParams←()
+        ⍝ Path Param
+        :If 2≠args.⎕NC'petId'⋄'petId is required' ⎕SIGNAL 100 ⋄ :EndIf
+        :If ~isValidPathParam args.petId⋄'petId should be a character vector or a scalar number' ⎕SIGNAL 100 ⋄ :EndIf
+        :If 2|⎕DR args.petId ⋄ args.petId←⍕args.petId ⋄ :EndIf ⍝ Convert to a character vector 
+        ⍝ Query param
+        :If (2=args.⎕NC'additionalMetadata')
+            queryParams.additionalMetadata←args.additionalMetadata 
+        :EndIf
+        
+        
+        ⍝ Body is octet-stream
+        :If (0≠args.⎕NC'body') 
+        params←args.body
+        :EndIf
+        
+        ⍝ TODO: Required args should be managed...
+
+        r←( ⍝ Basically HttpCommand args in a nutshell
+            Command: 'post'
+            URL: '/pet/',args.petId,'/uploadImage'
+            ContentType: 'application/octet-stream'
+            Params: params
+        )
+        :If 0≠⍴queryParams.⎕NL-⍳9
+            r.URL,←'?',args.client.HttpCommand.UrlEncode queryParams
+        :EndIf
+    ∇ 
+
+    ∇ r←parseResponse response
+        :If response.HttpStatus=200
+            r←response.Data ⍝ HttpCommand will parse JSON for us
+            →0
+        :EndIf
+        :If response.HttpStatus=400
+            r←response.Data ⍝ HttpCommand will parse JSON for us
+            →0
+        :EndIf
+        :If response.HttpStatus=404
+            r←response.Data ⍝ HttpCommand will parse JSON for us
+            →0
+        :EndIf
+
+        ⍝ Default to nothing
+        r←()
+    ∇
+
+    ∇ r←buildResponse response
+        r←(
+            statusCode: response.HttpStatus
+            content: response.Data
+            headers: response.Headers
+            parsed: parseResponse response
+        )
+    ∇
+
+    ∇ r←syncDetailed args;client;cArgs;response
+        ⍝ Args is a ns
+        ⍝ (
+        ⍝   client: Client (required)
+        ⍝   body: Byte Array (required)
+        ⍝   petId: Integer (required)
+        ⍝   additionalMetadata: String (not required)
+        ⍝ )
+        ⍝ This is a POST command
+        :If 0=args.⎕NC'client'
+            ⍝ No Client oops
+            'client is required' ⎕SIGNAL 100   
+        :EndIf
+        client←args.client
+        cArgs←parseArgs args ⍝ Create client args
+
+        response←client.request cArgs
+        r←buildResponse response
+    ∇
+
+    ∇ r←sync args
+        r←(syncDetailed args).parsed
+    ∇
+:EndNamespace

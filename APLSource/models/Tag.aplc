@@ -1,0 +1,34 @@
+:Class Tag
+    ⍝ id: int, optional
+    ⍝ name: str, optional
+
+    :field public id ⍝ int
+    :field public name ⍝ str
+
+    ∇ make1 args
+        :Access public
+        :Implements constructor
+        ⍝ We will assume correct
+        ⎕THIS ⎕NS args ⍝ Copy args into ⎕THIS
+    ∇
+
+    ∇  build←FormatNS;build
+        :Access public
+        build←()
+        :If (isVarDefined 'id') 
+
+            build.id←id 
+        :EndIf
+
+        :If (isVarDefined 'name') 
+
+            build.name←name 
+        :EndIf
+
+    ∇
+
+    ∇ b←isVarDefined varName;_
+        :Trap 0 ⋄ _←⎕VGET varName ⋄ b←1 ⋄ :Else ⋄ b←0 ⋄ :EndTrap
+        ⍝ TODO This is messy. Surely there is a better way
+    ∇
+:EndClass

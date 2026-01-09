@@ -1,0 +1,62 @@
+:Class Order
+    ⍝ id: int, optional
+    ⍝ petId: int, optional
+    ⍝ quantity: int, optional
+    ⍝ shipDate: str, optional
+    ⍝ status: str, optional
+    ⍝ complete: bool, optional
+
+    :field public id ⍝ int
+    :field public petId ⍝ int
+    :field public quantity ⍝ int
+    :field public shipDate ⍝ str
+    :field public status ⍝ str
+    :field public complete ⍝ bool
+
+    ∇ make1 args
+        :Access public
+        :Implements constructor
+        ⍝ We will assume correct
+        ⎕THIS ⎕NS args ⍝ Copy args into ⎕THIS
+    ∇
+
+    ∇  build←FormatNS;build
+        :Access public
+        build←()
+        :If (isVarDefined 'id') 
+
+            build.id←id 
+        :EndIf
+
+        :If (isVarDefined 'petId') 
+
+            build.petId←petId 
+        :EndIf
+
+        :If (isVarDefined 'quantity') 
+
+            build.quantity←quantity 
+        :EndIf
+
+        :If (isVarDefined 'shipDate') 
+
+            build.shipDate←shipDate 
+        :EndIf
+
+        :If (isVarDefined 'status') 
+
+            build.status←status 
+        :EndIf
+
+        :If (isVarDefined 'complete') 
+
+            build.complete←complete 
+        :EndIf
+
+    ∇
+
+    ∇ b←isVarDefined varName;_
+        :Trap 0 ⋄ _←⎕VGET varName ⋄ b←1 ⋄ :Else ⋄ b←0 ⋄ :EndTrap
+        ⍝ TODO This is messy. Surely there is a better way
+    ∇
+:EndClass

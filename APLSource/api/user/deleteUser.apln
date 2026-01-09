@@ -1,0 +1,86 @@
+:Namespace deleteUser
+    ⍝ DELETE: /user/{username}
+    ⍝ Delete user resource.
+    ⍝ This can only be done by the logged in user.
+    
+    ⍝ Parameters:
+    ⍝ username: String, required, Path
+    
+    isValidPathParam←{
+        ⍝ True if argument is a character vector or a scalar number
+        isChar←(0=10|⎕DR)⍵
+        isScalarNum←(0=≢⍴⍵)∧2|⎕DR ⍵
+        isChar ∨ isScalarNum
+    }
+    
+    ∇ r←parseArgs args;params
+        queryParams←()
+        ⍝ Path Param
+        :If 2≠args.⎕NC'username'⋄'username is required' ⎕SIGNAL 100 ⋄ :EndIf
+        :If ~isValidPathParam args.username⋄'username should be a character vector or a scalar number' ⎕SIGNAL 100 ⋄ :EndIf
+        :If 2|⎕DR args.username ⋄ args.username←⍕args.username ⋄ :EndIf ⍝ Convert to a character vector 
+        
+        
+        
+        ⍝ TODO: Required args should be managed...
+
+        r←( ⍝ Basically HttpCommand args in a nutshell
+            Command: 'delete'
+            URL: '/user/',args.username
+            ContentType: 'application/json'
+            
+        )
+        :If 0≠⍴queryParams.⎕NL-⍳9
+            r.URL,←'?',args.client.HttpCommand.UrlEncode queryParams
+        :EndIf
+    ∇ 
+
+    ∇ r←parseResponse response
+        :If response.HttpStatus=200
+            r←response.Data ⍝ HttpCommand will parse JSON for us
+            →0
+        :EndIf
+        :If response.HttpStatus=400
+            r←response.Data ⍝ HttpCommand will parse JSON for us
+            →0
+        :EndIf
+        :If response.HttpStatus=404
+            r←response.Data ⍝ HttpCommand will parse JSON for us
+            →0
+        :EndIf
+
+        ⍝ Default to nothing
+        r←()
+    ∇
+
+    ∇ r←buildResponse response
+        r←(
+            statusCode: response.HttpStatus
+            content: response.Data
+            headers: response.Headers
+            parsed: parseResponse response
+        )
+    ∇
+
+    ∇ r←syncDetailed args;client;cArgs;response
+        ⍝ Args is a ns
+        ⍝ (
+        ⍝   client: Client (required)
+        ⍝   username: String (required)
+        ⍝ )
+        ⍝ This is a DELETE command
+        :If 0=args.⎕NC'client'
+            ⍝ No Client oops
+            'client is required' ⎕SIGNAL 100   
+        :EndIf
+        client←args.client
+        cArgs←parseArgs args ⍝ Create client args
+
+        response←client.request cArgs
+        r←buildResponse response
+    ∇
+
+    ∇ r←sync args
+        r←(syncDetailed args).parsed
+    ∇
+:EndNamespace

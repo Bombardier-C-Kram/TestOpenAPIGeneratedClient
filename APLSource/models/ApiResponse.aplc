@@ -1,0 +1,41 @@
+:Class ApiResponse
+    ⍝ code: int, optional
+    ⍝ type: str, optional
+    ⍝ message: str, optional
+
+    :field public code ⍝ int
+    :field public type ⍝ str
+    :field public message ⍝ str
+
+    ∇ make1 args
+        :Access public
+        :Implements constructor
+        ⍝ We will assume correct
+        ⎕THIS ⎕NS args ⍝ Copy args into ⎕THIS
+    ∇
+
+    ∇  build←FormatNS;build
+        :Access public
+        build←()
+        :If (isVarDefined 'code') 
+
+            build.code←code 
+        :EndIf
+
+        :If (isVarDefined 'type') 
+
+            build.type←type 
+        :EndIf
+
+        :If (isVarDefined 'message') 
+
+            build.message←message 
+        :EndIf
+
+    ∇
+
+    ∇ b←isVarDefined varName;_
+        :Trap 0 ⋄ _←⎕VGET varName ⋄ b←1 ⋄ :Else ⋄ b←0 ⋄ :EndTrap
+        ⍝ TODO This is messy. Surely there is a better way
+    ∇
+:EndClass
