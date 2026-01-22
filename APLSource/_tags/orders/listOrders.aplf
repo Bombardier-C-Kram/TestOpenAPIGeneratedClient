@@ -1,0 +1,40 @@
+response←listOrders argsNs;headerParams;queryParams;body;clientArgs
+⍝ GET /orders
+⍝ List orders
+⍝
+⍝ Parameters:
+⍝   - status (in: query) [optional]: String
+⍝   - startDate (in: query) [optional]: String
+⍝   - endDate (in: query) [optional]: String
+headerParams←⍬
+queryParams←()
+body←()
+
+⍝ Query parameter: status
+:If (2=argsNs.⎕NC'status')
+    queryParams.status←argsNs.status
+:EndIf
+⍝ Query parameter: startDate
+:If (2=argsNs.⎕NC'startDate')
+    queryParams.startDate←argsNs.startDate
+:EndIf
+⍝ Query parameter: endDate
+:If (2=argsNs.⎕NC'endDate')
+    queryParams.endDate←argsNs.endDate
+:EndIf
+
+
+⍝ Build clientArgs
+clientArgs←( ⍝ Basically HttpCommand args in a nutshell
+    Command: 'get'
+    URL: '/orders'
+    Headers: headerParams
+    ContentType: 'application/json'
+)
+
+:If 0≠⍴queryParams.⎕NL-⍳9
+    clientArgs.URL,←'?',c.∆.HttpCommand.UrlEncode queryParams
+:EndIf
+
+⍝ Run and handle response
+response←c.∆.utils.request clientArgs

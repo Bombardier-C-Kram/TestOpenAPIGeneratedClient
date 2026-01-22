@@ -1,0 +1,55 @@
+:Class Error
+    ⍝ code: str, required
+    ⍝ message: str, required
+    ⍝ details: namespace, optional
+    ⍝ timestamp: str, optional
+    ⍝ path: str, optional
+
+    :field public code ⍝ str
+    :field public message ⍝ str
+    :field public details ⍝ namespace
+    :field public timestamp ⍝ str
+    :field public path ⍝ str
+
+    ∇ make1 args
+        :Access public
+        :Implements constructor
+        ⍝ We will assume correct
+        ⎕THIS ⎕NS args ⍝ Copy args into ⎕THIS
+    ∇
+
+    ∇  build←FormatNS;build
+        :Access public
+        build←()
+        :If (isVarDefined 'code') 
+
+            build.code←code 
+        :EndIf
+
+        :If (isVarDefined 'message') 
+
+            build.message←message 
+        :EndIf
+
+        :If (isVarDefined 'details') 
+
+            build.details←details 
+        :EndIf
+
+        :If (isVarDefined 'timestamp') 
+
+            build.timestamp←timestamp 
+        :EndIf
+
+        :If (isVarDefined 'path') 
+
+            build.path←path 
+        :EndIf
+
+    ∇
+
+    ∇ b←isVarDefined varName;_
+        :Trap 0 ⋄ _←⎕VGET varName ⋄ b←1 ⋄ :Else ⋄ b←0 ⋄ :EndTrap
+        ⍝ TODO This is messy. Surely there is a better way
+    ∇
+:EndClass

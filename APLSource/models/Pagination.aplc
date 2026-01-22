@@ -1,0 +1,62 @@
+:Class Pagination
+    ⍝ page: int, optional
+    ⍝ limit: int, optional
+    ⍝ totalPages: int, optional
+    ⍝ totalItems: int, optional
+    ⍝ hasNext: bool, optional
+    ⍝ hasPrevious: bool, optional
+
+    :field public page ⍝ int
+    :field public limit ⍝ int
+    :field public totalPages ⍝ int
+    :field public totalItems ⍝ int
+    :field public hasNext ⍝ bool
+    :field public hasPrevious ⍝ bool
+
+    ∇ make1 args
+        :Access public
+        :Implements constructor
+        ⍝ We will assume correct
+        ⎕THIS ⎕NS args ⍝ Copy args into ⎕THIS
+    ∇
+
+    ∇  build←FormatNS;build
+        :Access public
+        build←()
+        :If (isVarDefined 'page') 
+
+            build.page←page 
+        :EndIf
+
+        :If (isVarDefined 'limit') 
+
+            build.limit←limit 
+        :EndIf
+
+        :If (isVarDefined 'totalPages') 
+
+            build.totalPages←totalPages 
+        :EndIf
+
+        :If (isVarDefined 'totalItems') 
+
+            build.totalItems←totalItems 
+        :EndIf
+
+        :If (isVarDefined 'hasNext') 
+
+            build.hasNext←hasNext 
+        :EndIf
+
+        :If (isVarDefined 'hasPrevious') 
+
+            build.hasPrevious←hasPrevious 
+        :EndIf
+
+    ∇
+
+    ∇ b←isVarDefined varName;_
+        :Trap 0 ⋄ _←⎕VGET varName ⋄ b←1 ⋄ :Else ⋄ b←0 ⋄ :EndTrap
+        ⍝ TODO This is messy. Surely there is a better way
+    ∇
+:EndClass

@@ -1,0 +1,33 @@
+response←createOrder argsNs;headerParams;queryParams;body;clientArgs
+⍝ POST /orders
+⍝ Create a new order
+⍝
+⍝ Request Body:
+⍝   - application/json: CreateOrderRequest schema (required)
+headerParams←⍬
+queryParams←()
+body←()
+
+
+⍝ Request body (JSON)
+:If (0≠argsNs.⎕NC'createOrderRequest')
+    body←argsNs.createOrderRequest
+:Else
+    ⎕SIGNAL⊂('EN' 11)('Message' 'Missing required parameter: createOrderRequest')
+:EndIf
+
+⍝ Build clientArgs
+clientArgs←( ⍝ Basically HttpCommand args in a nutshell
+    Command: 'post'
+    URL: '/orders'
+    Headers: headerParams
+    Params: body
+    ContentType: 'application/json'
+)
+
+:If 0≠⍴queryParams.⎕NL-⍳9
+    clientArgs.URL,←'?',c.∆.HttpCommand.UrlEncode queryParams
+:EndIf
+
+⍝ Run and handle response
+response←c.∆.utils.request clientArgs

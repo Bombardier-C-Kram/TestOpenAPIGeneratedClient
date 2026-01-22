@@ -1,0 +1,51 @@
+response←listUsers argsNs;headerParams;queryParams;body;clientArgs
+⍝ GET /users
+⍝ List all users
+⍝ Retrieve a paginated list of users with filtering options
+⍝
+⍝ Parameters:
+⍝   - page (in: query) [optional]: Integer
+⍝   - limit (in: query) [optional]: Integer
+⍝   - status (in: query) [optional]: String
+⍝   - sort (in: query) [optional]: String
+⍝   - X-Request-ID (in: header) [optional]: String
+headerParams←⍬
+queryParams←()
+body←()
+
+⍝ Query parameter: page
+:If (2=argsNs.⎕NC'page')
+    queryParams.page←argsNs.page
+:EndIf
+⍝ Query parameter: limit
+:If (2=argsNs.⎕NC'limit')
+    queryParams.limit←argsNs.limit
+:EndIf
+⍝ Query parameter: status
+:If (2=argsNs.⎕NC'status')
+    queryParams.status←argsNs.status
+:EndIf
+⍝ Query parameter: sort
+:If (2=argsNs.⎕NC'sort')
+    queryParams.sort←argsNs.sort
+:EndIf
+⍝ Header parameter: X-Request-ID
+:If (2=argsNs.⎕NC'X-Request-ID')
+    headerParams,←'X-Request-ID' argsNs.X-Request-ID
+:EndIf
+
+
+⍝ Build clientArgs
+clientArgs←( ⍝ Basically HttpCommand args in a nutshell
+    Command: 'get'
+    URL: '/users'
+    Headers: headerParams
+    ContentType: 'application/json'
+)
+
+:If 0≠⍴queryParams.⎕NL-⍳9
+    clientArgs.URL,←'?',c.∆.HttpCommand.UrlEncode queryParams
+:EndIf
+
+⍝ Run and handle response
+response←c.∆.utils.request clientArgs

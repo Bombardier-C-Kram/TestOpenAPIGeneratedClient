@@ -1,0 +1,33 @@
+response←createProduct argsNs;headerParams;queryParams;body;clientArgs
+⍝ POST /products
+⍝ Create product
+⍝
+⍝ Request Body:
+⍝   - application/json: CreateProductRequest schema (required)
+headerParams←⍬
+queryParams←()
+body←()
+
+
+⍝ Request body (JSON)
+:If (0≠argsNs.⎕NC'createProductRequest')
+    body←argsNs.createProductRequest
+:Else
+    ⎕SIGNAL⊂('EN' 11)('Message' 'Missing required parameter: createProductRequest')
+:EndIf
+
+⍝ Build clientArgs
+clientArgs←( ⍝ Basically HttpCommand args in a nutshell
+    Command: 'post'
+    URL: '/products'
+    Headers: headerParams
+    Params: body
+    ContentType: 'application/json'
+)
+
+:If 0≠⍴queryParams.⎕NL-⍳9
+    clientArgs.URL,←'?',c.∆.HttpCommand.UrlEncode queryParams
+:EndIf
+
+⍝ Run and handle response
+response←c.∆.utils.request clientArgs

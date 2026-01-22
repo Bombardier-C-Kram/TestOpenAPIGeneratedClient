@@ -1,0 +1,34 @@
+response←createUser argsNs;headerParams;queryParams;body;clientArgs
+⍝ POST /users
+⍝ Create a new user
+⍝ Create a new user with the provided information
+⍝
+⍝ Request Body:
+⍝   - application/json: CreateUserRequest schema (required)
+headerParams←⍬
+queryParams←()
+body←()
+
+
+⍝ Request body (JSON)
+:If (0≠argsNs.⎕NC'createUserRequest')
+    body←argsNs.createUserRequest
+:Else
+    ⎕SIGNAL⊂('EN' 11)('Message' 'Missing required parameter: createUserRequest')
+:EndIf
+
+⍝ Build clientArgs
+clientArgs←( ⍝ Basically HttpCommand args in a nutshell
+    Command: 'post'
+    URL: '/users'
+    Headers: headerParams
+    Params: body
+    ContentType: 'application/json'
+)
+
+:If 0≠⍴queryParams.⎕NL-⍳9
+    clientArgs.URL,←'?',c.∆.HttpCommand.UrlEncode queryParams
+:EndIf
+
+⍝ Run and handle response
+response←c.∆.utils.request clientArgs

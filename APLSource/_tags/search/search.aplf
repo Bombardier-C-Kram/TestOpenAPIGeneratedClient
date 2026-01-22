@@ -1,0 +1,37 @@
+response←search argsNs;headerParams;queryParams;body;clientArgs
+⍝ GET /search
+⍝ Search across resources
+⍝
+⍝ Parameters:
+⍝   - q (in: query) [required]: String
+⍝   - type (in: query) [optional]: Array
+headerParams←⍬
+queryParams←()
+body←()
+
+⍝ Query parameter: q
+:If (2=argsNs.⎕NC'q')
+    queryParams.q←argsNs.q
+:Else
+    ⎕SIGNAL⊂('EN' 11)('Message' 'Missing required parameter: q')
+:EndIf
+⍝ Query parameter: type
+:If (2=argsNs.⎕NC'type')
+    queryParams.type←argsNs.type
+:EndIf
+
+
+⍝ Build clientArgs
+clientArgs←( ⍝ Basically HttpCommand args in a nutshell
+    Command: 'get'
+    URL: '/search'
+    Headers: headerParams
+    ContentType: 'application/json'
+)
+
+:If 0≠⍴queryParams.⎕NL-⍳9
+    clientArgs.URL,←'?',c.∆.HttpCommand.UrlEncode queryParams
+:EndIf
+
+⍝ Run and handle response
+response←c.∆.utils.request clientArgs

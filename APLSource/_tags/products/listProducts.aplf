@@ -1,0 +1,46 @@
+response←listProducts argsNs;headerParams;queryParams;body;clientArgs
+⍝ GET /products
+⍝ List products
+⍝ Retrieve a list of products with advanced filtering
+⍝
+⍝ Parameters:
+⍝   - category (in: query) [optional]: Array
+⍝   - minPrice (in: query) [optional]: Number
+⍝   - maxPrice (in: query) [optional]: Number
+⍝   - inStock (in: query) [optional]: Boolean
+headerParams←⍬
+queryParams←()
+body←()
+
+⍝ Query parameter: category
+:If (2=argsNs.⎕NC'category')
+    queryParams.category←argsNs.category
+:EndIf
+⍝ Query parameter: minPrice
+:If (2=argsNs.⎕NC'minPrice')
+    queryParams.minPrice←argsNs.minPrice
+:EndIf
+⍝ Query parameter: maxPrice
+:If (2=argsNs.⎕NC'maxPrice')
+    queryParams.maxPrice←argsNs.maxPrice
+:EndIf
+⍝ Query parameter: inStock
+:If (2=argsNs.⎕NC'inStock')
+    queryParams.inStock←argsNs.inStock
+:EndIf
+
+
+⍝ Build clientArgs
+clientArgs←( ⍝ Basically HttpCommand args in a nutshell
+    Command: 'get'
+    URL: '/products'
+    Headers: headerParams
+    ContentType: 'application/json'
+)
+
+:If 0≠⍴queryParams.⎕NL-⍳9
+    clientArgs.URL,←'?',c.∆.HttpCommand.UrlEncode queryParams
+:EndIf
+
+⍝ Run and handle response
+response←c.∆.utils.request clientArgs

@@ -1,0 +1,55 @@
+:Class OrderItem
+    ⍝ productId: int, required
+    ⍝ productName: str, optional
+    ⍝ quantity: int, required
+    ⍝ price: number, required
+    ⍝ subtotal: number, optional
+
+    :field public productId ⍝ int
+    :field public productName ⍝ str
+    :field public quantity ⍝ int
+    :field public price ⍝ number
+    :field public subtotal ⍝ number
+
+    ∇ make1 args
+        :Access public
+        :Implements constructor
+        ⍝ We will assume correct
+        ⎕THIS ⎕NS args ⍝ Copy args into ⎕THIS
+    ∇
+
+    ∇  build←FormatNS;build
+        :Access public
+        build←()
+        :If (isVarDefined 'productId') 
+
+            build.productId←productId 
+        :EndIf
+
+        :If (isVarDefined 'productName') 
+
+            build.productName←productName 
+        :EndIf
+
+        :If (isVarDefined 'quantity') 
+
+            build.quantity←quantity 
+        :EndIf
+
+        :If (isVarDefined 'price') 
+
+            build.price←price 
+        :EndIf
+
+        :If (isVarDefined 'subtotal') 
+
+            build.subtotal←subtotal 
+        :EndIf
+
+    ∇
+
+    ∇ b←isVarDefined varName;_
+        :Trap 0 ⋄ _←⎕VGET varName ⋄ b←1 ⋄ :Else ⋄ b←0 ⋄ :EndTrap
+        ⍝ TODO This is messy. Surely there is a better way
+    ∇
+:EndClass

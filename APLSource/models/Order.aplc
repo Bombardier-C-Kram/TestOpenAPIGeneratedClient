@@ -1,17 +1,37 @@
 :Class Order
-    ⍝ id: int, optional
-    ⍝ petId: int, optional
-    ⍝ quantity: int, optional
-    ⍝ shipDate: str, optional
-    ⍝ status: str, optional
-    ⍝ complete: bool, optional
+    ⍝ id: str, required
+    ⍝ userId: str, required
+    ⍝ items: array[namespace], REFERENCE, required
+    ⍝ status: str, required
+    ⍝ subtotal: number, optional
+    ⍝ tax: number, optional
+    ⍝ shipping: number, optional
+    ⍝ total: number, optional
+    ⍝ currency: str, optional
+    ⍝ shippingAddress: namespace, REFERENCE, optional
+    ⍝ billingAddress: namespace, REFERENCE, optional
+    ⍝ paymentMethod: str, optional
+    ⍝ notes: str, optional
+    ⍝ createdAt: str, optional
+    ⍝ updatedAt: str, optional
+    ⍝ estimatedDelivery: any, optional
 
-    :field public id ⍝ int
-    :field public petId ⍝ int
-    :field public quantity ⍝ int
-    :field public shipDate ⍝ str
+    :field public id ⍝ str
+    :field public userId ⍝ str
+    :field public items ⍝ array[namespace]
     :field public status ⍝ str
-    :field public complete ⍝ bool
+    :field public subtotal ⍝ number
+    :field public tax ⍝ number
+    :field public shipping ⍝ number
+    :field public total ⍝ number
+    :field public currency ⍝ str
+    :field public shippingAddress ⍝ namespace
+    :field public billingAddress ⍝ namespace
+    :field public paymentMethod ⍝ str
+    :field public notes ⍝ str
+    :field public createdAt ⍝ str
+    :field public updatedAt ⍝ str
+    :field public estimatedDelivery ⍝ any
 
     ∇ make1 args
         :Access public
@@ -28,19 +48,20 @@
             build.id←id 
         :EndIf
 
-        :If (isVarDefined 'petId') 
+        :If (isVarDefined 'userId') 
 
-            build.petId←petId 
+            build.userId←userId 
         :EndIf
 
-        :If (isVarDefined 'quantity') 
-
-            build.quantity←quantity 
-        :EndIf
-
-        :If (isVarDefined 'shipDate') 
-
-            build.shipDate←shipDate 
+        :If (isVarDefined 'items') 
+            ⍝REFERENCE
+            ⍝ARRAY
+            ⍝ Check if array is empty
+            :If 0∊⍴items
+                build.items←⍬
+            :Else
+                build.items←1∘/items.FormatNS ⍝ Ensure minimum rank 1
+            :EndIf 
         :EndIf
 
         :If (isVarDefined 'status') 
@@ -48,9 +69,64 @@
             build.status←status 
         :EndIf
 
-        :If (isVarDefined 'complete') 
+        :If (isVarDefined 'subtotal') 
 
-            build.complete←complete 
+            build.subtotal←subtotal 
+        :EndIf
+
+        :If (isVarDefined 'tax') 
+
+            build.tax←tax 
+        :EndIf
+
+        :If (isVarDefined 'shipping') 
+
+            build.shipping←shipping 
+        :EndIf
+
+        :If (isVarDefined 'total') 
+
+            build.total←total 
+        :EndIf
+
+        :If (isVarDefined 'currency') 
+
+            build.currency←currency 
+        :EndIf
+
+        :If (isVarDefined 'shippingAddress') 
+            ⍝REFERENCE
+                build.shippingAddress←shippingAddress.FormatNS
+        :EndIf
+
+        :If (isVarDefined 'billingAddress') 
+            ⍝REFERENCE
+                build.billingAddress←billingAddress.FormatNS
+        :EndIf
+
+        :If (isVarDefined 'paymentMethod') 
+
+            build.paymentMethod←paymentMethod 
+        :EndIf
+
+        :If (isVarDefined 'notes') 
+
+            build.notes←notes 
+        :EndIf
+
+        :If (isVarDefined 'createdAt') 
+
+            build.createdAt←createdAt 
+        :EndIf
+
+        :If (isVarDefined 'updatedAt') 
+
+            build.updatedAt←updatedAt 
+        :EndIf
+
+        :If (isVarDefined 'estimatedDelivery') 
+
+            build.estimatedDelivery←estimatedDelivery 
         :EndIf
 
     ∇

@@ -1,86 +1,59 @@
 :Class Client
-    ⍝ Generated on 2026-01-09 10:52:26 UTC
-    ⍝ Swagger Petstore - OpenAPI 3.0 - Version 1.0.27
-    ⍝ This is a sample Pet Store Server based on the OpenAPI 3.0 specification.  You can find out more about
-    ⍝ Swagger at [https://swagger.io](https://swagger.io). In the third iteration of the pet store, we've switched to the design first approach!
-    ⍝ You can now help us improve the API whether it's by making changes to the definition itself or to the code.
-    ⍝ That way, with time, we can improve the API in general, and expose some of the new features in OAS3.
+    ⍝ Generated on 2026-01-22 14:45:33 UTC
+    ⍝ Comprehensive Test REST API - Version 1.0.0
+    ⍝ A test REST API designed to cover most OpenAPI 3.0 specification features.
+    ⍝ This API includes examples of all major HTTP methods, parameter types, 
+    ⍝ authentication schemes, content types, and response patterns.
     ⍝ 
-    ⍝ Some useful links:
-    ⍝ - [The Pet Store repository](https://github.com/swagger-api/swagger-petstore)
-    ⍝ - [The source API definition for the Pet Store](https://github.com/swagger-api/swagger-petstore/blob/master/src/main/resources/openapi.yaml)
-    ⍝ Base URL: /api/v3
+    ⍝ Base URL: https://api.testapi.example.com/v1
 
-    (⎕ML ⎕IO)←1
+    :field public ∆ ⍝ Client specific "stuff"
+    :field public health ⍝ Health tag
+    :field public users ⍝ Users tag
+    :field public files ⍝ Files tag
+    :field public products ⍝ Products tag
+    :field public orders ⍝ Orders tag
+    :field public auth ⍝ Auth tag
+    :field public search ⍝ Search tag
 
-
-    ∇ r←Version
-        ⍝ Return the current version
-        :Access public shared
-        r←'Swagger Petstore - OpenAPI 3.0' '1.0.27' '2026-01-09'
-    ∇
-
-    :field public BaseURL
-    :field public Cookies
-    :field public Headers
-    :field public Timeout
-    :field public VerifySSL
-    :field public FollowRedirects
-    :field public shared HttpCommand←''
-    :field public Initialised←0
-
-    ∇ (rc msg)←Initialise
-      rc←¯1
-      :If Initialised
-          (rc msg)←0 'Already initialised'
-      :Else
-          :If ''≡HttpCommand
-              :If 0≠##.⎕NC'HttpCommand'      ⍝ HttpCommand found in the parent?
-                  HttpCommand←##.HttpCommand ⍝ use it
-              :Else
-                  :Trap 0
-                      ⎕SE.SALT.Load'HttpCommand' ⍝ otherwise load it
-                      :If 0>⊃HttpCommand.Upgrade ⍝ and upgrade it
-                          msg←'Unable to upgrade HttpCommand'
-                          →0
-                      :EndIf
-                  :Else
-                      msg←'Error loading HttpCommand: ',∊⍕⎕DMX.(EM Message)
-                  :EndTrap
-              :EndIf
-          :EndIf
-      :EndIf
-      :If 1=5 6(×2⊥×⍤-)2↑2⊃'.'⎕VFI 2⊃HttpCommand.Version
-          msg←'HttpCommand version 5.6 or later is required'
-      :Else
-          (rc msg)←0 'Initialised'
-          Initialised←1
-      :EndIf
-    ∇
-
-    ∇ make1 args
+    ∇ ∆make config
         :Access public
         :Implements constructor
-        →0⍴⍨0∊⍴args
-        ⍝ We will assume correct
-        ⍝ Args is a namespace
-        ⍝ BaseURL, Cookies, Headers, Timeout, VerifySSL, FollowRedirects
-        args←(baseURL: '' ⋄ cookies: () ⋄ headers: [''⋄''] ⋄ timeout: ⍬ ⋄ verifySSL: 1 ⋄ followRedirects: 0) ⎕ns args
-        BaseURL Cookies Headers Timeout VerifySSL FollowRedirects←args.(baseURL cookies headers timeout verifySSL followRedirects)
-        Initialise
+        :If 0=config.⎕NC'baseUrl'
+            ⎕SIGNAL⊂('EN' 11)('Message' 'Missing required parameter: baseUrl')
+        :EndIf
+
+        ∆←()
+        ∆.config←⎕NS config
+
+        ⍝ Some utility functions
+        ∆.utils←⎕NS ##.utils
+        ∆.utils.c←⎕THIS
+
+        ∆.Version←##.Version
+
+        ∆.HttpCommand←##.HttpCommand
+
+        ⍝ Initialize all tag namespaces
+        health←⎕NS ##._tags.health
+        health.c←⎕THIS
+
+        users←⎕NS ##._tags.users
+        users.c←⎕THIS
+
+        files←⎕NS ##._tags.files
+        files.c←⎕THIS
+
+        products←⎕NS ##._tags.products
+        products.c←⎕THIS
+
+        orders←⎕NS ##._tags.orders
+        orders.c←⎕THIS
+
+        auth←⎕NS ##._tags.auth
+        auth.c←⎕THIS
+
+        search←⎕NS ##._tags.search
+        search.c←⎕THIS
     ∇
-
-    ∇ r←request cArgs
-        :Access public
-        ⍝ cArgs is a NS that mostly contains HttpCommand args
-        cArgs.BaseURL←BaseURL
-        ⍝cArgs.Headers←Headers
-        cArgs.TranslateData←1
-        r←HttpCommand.Do cArgs
-    ∇
-
-
-
-    
-
 :EndClass

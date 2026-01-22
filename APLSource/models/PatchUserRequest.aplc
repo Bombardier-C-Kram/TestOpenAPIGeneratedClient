@@ -1,0 +1,62 @@
+:Class PatchUserRequest
+    ⍝ username: str, optional
+    ⍝ email: str, optional
+    ⍝ firstName: str, optional
+    ⍝ lastName: str, optional
+    ⍝ phoneNumber: str, optional
+    ⍝ status: str, optional
+
+    :field public username ⍝ str
+    :field public email ⍝ str
+    :field public firstName ⍝ str
+    :field public lastName ⍝ str
+    :field public phoneNumber ⍝ str
+    :field public status ⍝ str
+
+    ∇ make1 args
+        :Access public
+        :Implements constructor
+        ⍝ We will assume correct
+        ⎕THIS ⎕NS args ⍝ Copy args into ⎕THIS
+    ∇
+
+    ∇  build←FormatNS;build
+        :Access public
+        build←()
+        :If (isVarDefined 'username') 
+
+            build.username←username 
+        :EndIf
+
+        :If (isVarDefined 'email') 
+
+            build.email←email 
+        :EndIf
+
+        :If (isVarDefined 'firstName') 
+
+            build.firstName←firstName 
+        :EndIf
+
+        :If (isVarDefined 'lastName') 
+
+            build.lastName←lastName 
+        :EndIf
+
+        :If (isVarDefined 'phoneNumber') 
+
+            build.phoneNumber←phoneNumber 
+        :EndIf
+
+        :If (isVarDefined 'status') 
+
+            build.status←status 
+        :EndIf
+
+    ∇
+
+    ∇ b←isVarDefined varName;_
+        :Trap 0 ⋄ _←⎕VGET varName ⋄ b←1 ⋄ :Else ⋄ b←0 ⋄ :EndTrap
+        ⍝ TODO This is messy. Surely there is a better way
+    ∇
+:EndClass

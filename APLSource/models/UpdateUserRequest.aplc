@@ -1,37 +1,21 @@
-:Class User
-    ⍝ id: str, required
+:Class UpdateUserRequest
     ⍝ username: str, required
     ⍝ email: str, required
     ⍝ firstName: str, optional
     ⍝ lastName: str, optional
-    ⍝ fullName: str, optional
     ⍝ role: str, required
     ⍝ status: str, optional
-    ⍝ phoneNumber: any, optional
-    ⍝ dateOfBirth: any, optional
+    ⍝ phoneNumber: str, optional
     ⍝ address: namespace, REFERENCE, optional
-    ⍝ preferences: namespace, optional
-    ⍝ tags: array[str], optional
-    ⍝ createdAt: str, optional
-    ⍝ updatedAt: str, optional
-    ⍝ lastLoginAt: any, optional
 
-    :field public id ⍝ str
     :field public username ⍝ str
     :field public email ⍝ str
     :field public firstName ⍝ str
     :field public lastName ⍝ str
-    :field public fullName ⍝ str
     :field public role ⍝ str
     :field public status ⍝ str
-    :field public phoneNumber ⍝ any
-    :field public dateOfBirth ⍝ any
+    :field public phoneNumber ⍝ str
     :field public address ⍝ namespace
-    :field public preferences ⍝ namespace
-    :field public tags ⍝ array[str]
-    :field public createdAt ⍝ str
-    :field public updatedAt ⍝ str
-    :field public lastLoginAt ⍝ any
 
     ∇ make1 args
         :Access public
@@ -43,11 +27,6 @@
     ∇  build←FormatNS;build
         :Access public
         build←()
-        :If (isVarDefined 'id') 
-
-            build.id←id 
-        :EndIf
-
         :If (isVarDefined 'username') 
 
             build.username←username 
@@ -68,11 +47,6 @@
             build.lastName←lastName 
         :EndIf
 
-        :If (isVarDefined 'fullName') 
-
-            build.fullName←fullName 
-        :EndIf
-
         :If (isVarDefined 'role') 
 
             build.role←role 
@@ -88,39 +62,9 @@
             build.phoneNumber←phoneNumber 
         :EndIf
 
-        :If (isVarDefined 'dateOfBirth') 
-
-            build.dateOfBirth←dateOfBirth 
-        :EndIf
-
         :If (isVarDefined 'address') 
             ⍝REFERENCE
                 build.address←address.FormatNS
-        :EndIf
-
-        :If (isVarDefined 'preferences') 
-
-            build.preferences←preferences 
-        :EndIf
-
-        :If (isVarDefined 'tags') 
-
-            build.tags←1∘/⊆tags 
-        :EndIf
-
-        :If (isVarDefined 'createdAt') 
-
-            build.createdAt←createdAt 
-        :EndIf
-
-        :If (isVarDefined 'updatedAt') 
-
-            build.updatedAt←updatedAt 
-        :EndIf
-
-        :If (isVarDefined 'lastLoginAt') 
-
-            build.lastLoginAt←lastLoginAt 
         :EndIf
 
     ∇

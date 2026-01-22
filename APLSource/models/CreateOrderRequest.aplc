@@ -1,0 +1,62 @@
+:Class CreateOrderRequest
+    ⍝ userId: str, required
+    ⍝ items: array[namespace], required
+    ⍝ shippingAddress: namespace, REFERENCE, required
+    ⍝ billingAddress: namespace, REFERENCE, optional
+    ⍝ paymentMethod: str, optional
+    ⍝ notes: str, optional
+
+    :field public userId ⍝ str
+    :field public items ⍝ array[namespace]
+    :field public shippingAddress ⍝ namespace
+    :field public billingAddress ⍝ namespace
+    :field public paymentMethod ⍝ str
+    :field public notes ⍝ str
+
+    ∇ make1 args
+        :Access public
+        :Implements constructor
+        ⍝ We will assume correct
+        ⎕THIS ⎕NS args ⍝ Copy args into ⎕THIS
+    ∇
+
+    ∇  build←FormatNS;build
+        :Access public
+        build←()
+        :If (isVarDefined 'userId') 
+
+            build.userId←userId 
+        :EndIf
+
+        :If (isVarDefined 'items') 
+
+            build.items←1∘/⊆items 
+        :EndIf
+
+        :If (isVarDefined 'shippingAddress') 
+            ⍝REFERENCE
+                build.shippingAddress←shippingAddress.FormatNS
+        :EndIf
+
+        :If (isVarDefined 'billingAddress') 
+            ⍝REFERENCE
+                build.billingAddress←billingAddress.FormatNS
+        :EndIf
+
+        :If (isVarDefined 'paymentMethod') 
+
+            build.paymentMethod←paymentMethod 
+        :EndIf
+
+        :If (isVarDefined 'notes') 
+
+            build.notes←notes 
+        :EndIf
+
+    ∇
+
+    ∇ b←isVarDefined varName;_
+        :Trap 0 ⋄ _←⎕VGET varName ⋄ b←1 ⋄ :Else ⋄ b←0 ⋄ :EndTrap
+        ⍝ TODO This is messy. Surely there is a better way
+    ∇
+:EndClass

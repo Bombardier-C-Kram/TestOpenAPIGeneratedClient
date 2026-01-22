@@ -1,0 +1,76 @@
+:Class CreateProductRequest
+    ⍝ sku: str, optional
+    ⍝ name: str, required
+    ⍝ description: str, optional
+    ⍝ price: number, required
+    ⍝ currency: str, optional
+    ⍝ category: str, required
+    ⍝ tags: array[str], optional
+    ⍝ stockQuantity: int, optional
+
+    :field public sku ⍝ str
+    :field public name ⍝ str
+    :field public description ⍝ str
+    :field public price ⍝ number
+    :field public currency ⍝ str
+    :field public category ⍝ str
+    :field public tags ⍝ array[str]
+    :field public stockQuantity ⍝ int
+
+    ∇ make1 args
+        :Access public
+        :Implements constructor
+        ⍝ We will assume correct
+        ⎕THIS ⎕NS args ⍝ Copy args into ⎕THIS
+    ∇
+
+    ∇  build←FormatNS;build
+        :Access public
+        build←()
+        :If (isVarDefined 'sku') 
+
+            build.sku←sku 
+        :EndIf
+
+        :If (isVarDefined 'name') 
+
+            build.name←name 
+        :EndIf
+
+        :If (isVarDefined 'description') 
+
+            build.description←description 
+        :EndIf
+
+        :If (isVarDefined 'price') 
+
+            build.price←price 
+        :EndIf
+
+        :If (isVarDefined 'currency') 
+
+            build.currency←currency 
+        :EndIf
+
+        :If (isVarDefined 'category') 
+
+            build.category←category 
+        :EndIf
+
+        :If (isVarDefined 'tags') 
+
+            build.tags←1∘/⊆tags 
+        :EndIf
+
+        :If (isVarDefined 'stockQuantity') 
+
+            build.stockQuantity←stockQuantity 
+        :EndIf
+
+    ∇
+
+    ∇ b←isVarDefined varName;_
+        :Trap 0 ⋄ _←⎕VGET varName ⋄ b←1 ⋄ :Else ⋄ b←0 ⋄ :EndTrap
+        ⍝ TODO This is messy. Surely there is a better way
+    ∇
+:EndClass

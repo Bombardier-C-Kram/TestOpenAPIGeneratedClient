@@ -1,0 +1,139 @@
+:Class Product
+    ⍝ id: int, required
+    ⍝ sku: str, optional
+    ⍝ name: str, required
+    ⍝ description: str, optional
+    ⍝ price: number, required
+    ⍝ currency: str, optional
+    ⍝ category: str, required
+    ⍝ tags: array[str], optional
+    ⍝ inStock: bool, optional
+    ⍝ stockQuantity: int, optional
+    ⍝ dimensions: namespace, optional
+    ⍝ weight: number, optional
+    ⍝ images: array[str], optional
+    ⍝ rating: any, optional
+    ⍝ reviewCount: int, optional
+    ⍝ createdAt: str, optional
+    ⍝ updatedAt: str, optional
+
+    :field public id ⍝ int
+    :field public sku ⍝ str
+    :field public name ⍝ str
+    :field public description ⍝ str
+    :field public price ⍝ number
+    :field public currency ⍝ str
+    :field public category ⍝ str
+    :field public tags ⍝ array[str]
+    :field public inStock ⍝ bool
+    :field public stockQuantity ⍝ int
+    :field public dimensions ⍝ namespace
+    :field public weight ⍝ number
+    :field public images ⍝ array[str]
+    :field public rating ⍝ any
+    :field public reviewCount ⍝ int
+    :field public createdAt ⍝ str
+    :field public updatedAt ⍝ str
+
+    ∇ make1 args
+        :Access public
+        :Implements constructor
+        ⍝ We will assume correct
+        ⎕THIS ⎕NS args ⍝ Copy args into ⎕THIS
+    ∇
+
+    ∇  build←FormatNS;build
+        :Access public
+        build←()
+        :If (isVarDefined 'id') 
+
+            build.id←id 
+        :EndIf
+
+        :If (isVarDefined 'sku') 
+
+            build.sku←sku 
+        :EndIf
+
+        :If (isVarDefined 'name') 
+
+            build.name←name 
+        :EndIf
+
+        :If (isVarDefined 'description') 
+
+            build.description←description 
+        :EndIf
+
+        :If (isVarDefined 'price') 
+
+            build.price←price 
+        :EndIf
+
+        :If (isVarDefined 'currency') 
+
+            build.currency←currency 
+        :EndIf
+
+        :If (isVarDefined 'category') 
+
+            build.category←category 
+        :EndIf
+
+        :If (isVarDefined 'tags') 
+
+            build.tags←1∘/⊆tags 
+        :EndIf
+
+        :If (isVarDefined 'inStock') 
+
+            build.inStock←inStock 
+        :EndIf
+
+        :If (isVarDefined 'stockQuantity') 
+
+            build.stockQuantity←stockQuantity 
+        :EndIf
+
+        :If (isVarDefined 'dimensions') 
+
+            build.dimensions←dimensions 
+        :EndIf
+
+        :If (isVarDefined 'weight') 
+
+            build.weight←weight 
+        :EndIf
+
+        :If (isVarDefined 'images') 
+
+            build.images←1∘/⊆images 
+        :EndIf
+
+        :If (isVarDefined 'rating') 
+
+            build.rating←rating 
+        :EndIf
+
+        :If (isVarDefined 'reviewCount') 
+
+            build.reviewCount←reviewCount 
+        :EndIf
+
+        :If (isVarDefined 'createdAt') 
+
+            build.createdAt←createdAt 
+        :EndIf
+
+        :If (isVarDefined 'updatedAt') 
+
+            build.updatedAt←updatedAt 
+        :EndIf
+
+    ∇
+
+    ∇ b←isVarDefined varName;_
+        :Trap 0 ⋄ _←⎕VGET varName ⋄ b←1 ⋄ :Else ⋄ b←0 ⋄ :EndTrap
+        ⍝ TODO This is messy. Surely there is a better way
+    ∇
+:EndClass

@@ -1,0 +1,24 @@
+response←downloadAvatar argsNs;headerParams;queryParams;body;clientArgs
+⍝ GET /users/{userId}/avatar
+⍝ Download user avatar
+⍝ Download the avatar image for a user
+headerParams←⍬
+queryParams←()
+body←()
+
+
+
+⍝ Build clientArgs
+clientArgs←( ⍝ Basically HttpCommand args in a nutshell
+    Command: 'get'
+    URL: '/users/',argsNs.userId,'/avatar'
+    Headers: headerParams
+    ContentType: 'application/json'
+)
+
+:If 0≠⍴queryParams.⎕NL-⍳9
+    clientArgs.URL,←'?',c.∆.HttpCommand.UrlEncode queryParams
+:EndIf
+
+⍝ Run and handle response
+response←c.∆.utils.request clientArgs

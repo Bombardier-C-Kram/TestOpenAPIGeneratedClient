@@ -1,0 +1,48 @@
+:Class HealthStatus
+    ⍝ status: str, required
+    ⍝ timestamp: str, required
+    ⍝ version: str, optional
+    ⍝ uptime: int, optional
+
+    :field public status ⍝ str
+    :field public timestamp ⍝ str
+    :field public version ⍝ str
+    :field public uptime ⍝ int
+
+    ∇ make1 args
+        :Access public
+        :Implements constructor
+        ⍝ We will assume correct
+        ⎕THIS ⎕NS args ⍝ Copy args into ⎕THIS
+    ∇
+
+    ∇  build←FormatNS;build
+        :Access public
+        build←()
+        :If (isVarDefined 'status') 
+
+            build.status←status 
+        :EndIf
+
+        :If (isVarDefined 'timestamp') 
+
+            build.timestamp←timestamp 
+        :EndIf
+
+        :If (isVarDefined 'version') 
+
+            build.version←version 
+        :EndIf
+
+        :If (isVarDefined 'uptime') 
+
+            build.uptime←uptime 
+        :EndIf
+
+    ∇
+
+    ∇ b←isVarDefined varName;_
+        :Trap 0 ⋄ _←⎕VGET varName ⋄ b←1 ⋄ :Else ⋄ b←0 ⋄ :EndTrap
+        ⍝ TODO This is messy. Surely there is a better way
+    ∇
+:EndClass

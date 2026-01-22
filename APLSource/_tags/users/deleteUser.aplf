@@ -1,0 +1,24 @@
+response←deleteUser argsNs;headerParams;queryParams;body;clientArgs
+⍝ DELETE /users/{userId}
+⍝ Delete user
+⍝ Permanently delete a user
+headerParams←⍬
+queryParams←()
+body←()
+
+
+
+⍝ Build clientArgs
+clientArgs←( ⍝ Basically HttpCommand args in a nutshell
+    Command: 'delete'
+    URL: '/users/',argsNs.userId
+    Headers: headerParams
+    ContentType: 'application/json'
+)
+
+:If 0≠⍴queryParams.⎕NL-⍳9
+    clientArgs.URL,←'?',c.∆.HttpCommand.UrlEncode queryParams
+:EndIf
+
+⍝ Run and handle response
+response←c.∆.utils.request clientArgs

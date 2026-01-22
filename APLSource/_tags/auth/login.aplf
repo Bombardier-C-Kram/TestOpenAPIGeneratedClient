@@ -1,0 +1,24 @@
+response←login argsNs;headerParams;queryParams;body;clientArgs
+⍝ POST /auth/login
+⍝ User login
+headerParams←⍬
+queryParams←()
+body←()
+
+
+
+⍝ Build clientArgs
+clientArgs←( ⍝ Basically HttpCommand args in a nutshell
+    Command: 'post'
+    URL: '/auth/login'
+    Headers: headerParams
+    Params: body
+    ContentType: 'application/json'
+)
+
+:If 0≠⍴queryParams.⎕NL-⍳9
+    clientArgs.URL,←'?',c.∆.HttpCommand.UrlEncode queryParams
+:EndIf
+
+⍝ Run and handle response
+response←c.∆.utils.request clientArgs

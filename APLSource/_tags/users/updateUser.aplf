@@ -1,0 +1,34 @@
+response←updateUser argsNs;headerParams;queryParams;body;clientArgs
+⍝ PUT /users/{userId}
+⍝ Update user (full replace)
+⍝ Completely replace a user's information
+⍝
+⍝ Request Body:
+⍝   - application/json: UpdateUserRequest schema (required)
+headerParams←⍬
+queryParams←()
+body←()
+
+
+⍝ Request body (JSON)
+:If (0≠argsNs.⎕NC'updateUserRequest')
+    body←argsNs.updateUserRequest
+:Else
+    ⎕SIGNAL⊂('EN' 11)('Message' 'Missing required parameter: updateUserRequest')
+:EndIf
+
+⍝ Build clientArgs
+clientArgs←( ⍝ Basically HttpCommand args in a nutshell
+    Command: 'put'
+    URL: '/users/',argsNs.userId
+    Headers: headerParams
+    Params: body
+    ContentType: 'application/json'
+)
+
+:If 0≠⍴queryParams.⎕NL-⍳9
+    clientArgs.URL,←'?',c.∆.HttpCommand.UrlEncode queryParams
+:EndIf
+
+⍝ Run and handle response
+response←c.∆.utils.request clientArgs

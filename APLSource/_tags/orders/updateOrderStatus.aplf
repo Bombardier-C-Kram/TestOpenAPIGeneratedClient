@@ -1,0 +1,24 @@
+response←updateOrderStatus argsNs;headerParams;queryParams;body;clientArgs
+⍝ PATCH /orders/{orderId}/status
+⍝ Update order status
+headerParams←⍬
+queryParams←()
+body←()
+
+
+
+⍝ Build clientArgs
+clientArgs←( ⍝ Basically HttpCommand args in a nutshell
+    Command: 'patch'
+    URL: '/orders/',argsNs.orderId,'/status'
+    Headers: headerParams
+    Params: body
+    ContentType: 'application/json'
+)
+
+:If 0≠⍴queryParams.⎕NL-⍳9
+    clientArgs.URL,←'?',c.∆.HttpCommand.UrlEncode queryParams
+:EndIf
+
+⍝ Run and handle response
+response←c.∆.utils.request clientArgs

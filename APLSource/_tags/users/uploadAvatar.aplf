@@ -1,0 +1,42 @@
+response←uploadAvatar argsNs;headerParams;queryParams;body;clientArgs
+⍝ POST /users/{userId}/avatar
+⍝ Upload user avatar
+⍝ Upload an avatar image for a user
+⍝
+⍝ Request Body:
+⍝   - multipart/form-data (required)
+⍝     Form fields:
+⍝       - file (binary) [required] - Avatar image file
+⍝       - description (str) - Optional description of the avatar
+headerParams←⍬
+queryParams←()
+body←()
+
+
+⍝ Request body (multipart/form-data)
+⍝ Binary field: file - Avatar image file
+:If (0≠argsNs.⎕NC'file')
+    body.file←argsNs.file
+:Else
+    ⎕SIGNAL⊂('EN' 11)('Message' 'Missing required form field: file')
+:EndIf
+⍝ Form field: description - Optional description of the avatar
+:If (0≠argsNs.⎕NC'description')
+    body.description←argsNs.description
+:EndIf
+
+⍝ Build clientArgs
+clientArgs←( ⍝ Basically HttpCommand args in a nutshell
+    Command: 'post'
+    URL: '/users/',argsNs.userId,'/avatar'
+    Headers: headerParams
+    Params: body
+    ContentType: 'multipart/form-data'
+)
+
+:If 0≠⍴queryParams.⎕NL-⍳9
+    clientArgs.URL,←'?',c.∆.HttpCommand.UrlEncode queryParams
+:EndIf
+
+⍝ Run and handle response
+response←c.∆.utils.request clientArgs

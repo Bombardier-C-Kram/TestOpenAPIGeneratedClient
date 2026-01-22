@@ -1,0 +1,34 @@
+response←patchUser argsNs;headerParams;queryParams;body;clientArgs
+⍝ PATCH /users/{userId}
+⍝ Partially update user
+⍝ Update specific fields of a user
+⍝
+⍝ Request Body:
+⍝   - application/json: PatchUserRequest schema (required)
+headerParams←⍬
+queryParams←()
+body←()
+
+
+⍝ Request body (JSON)
+:If (0≠argsNs.⎕NC'patchUserRequest')
+    body←argsNs.patchUserRequest
+:Else
+    ⎕SIGNAL⊂('EN' 11)('Message' 'Missing required parameter: patchUserRequest')
+:EndIf
+
+⍝ Build clientArgs
+clientArgs←( ⍝ Basically HttpCommand args in a nutshell
+    Command: 'patch'
+    URL: '/users/',argsNs.userId
+    Headers: headerParams
+    Params: body
+    ContentType: 'application/json'
+)
+
+:If 0≠⍴queryParams.⎕NL-⍳9
+    clientArgs.URL,←'?',c.∆.HttpCommand.UrlEncode queryParams
+:EndIf
+
+⍝ Run and handle response
+response←c.∆.utils.request clientArgs

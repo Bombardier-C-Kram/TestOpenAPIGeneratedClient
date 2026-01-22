@@ -1,0 +1,44 @@
+response←uploadFiles argsNs;headerParams;queryParams;body;clientArgs
+⍝ POST /files/upload
+⍝ Upload multiple files
+⍝
+⍝ Request Body:
+⍝   - multipart/form-data (required)
+⍝     Form fields:
+⍝       - files (array[str])
+⍝       - tags (array[str])
+⍝       - metadata (namespace)
+headerParams←⍬
+queryParams←()
+body←()
+
+
+⍝ Request body (multipart/form-data)
+⍝ Form field: files
+:If (0≠argsNs.⎕NC'files')
+    body.files←argsNs.files
+:EndIf
+⍝ Form field: tags
+:If (0≠argsNs.⎕NC'tags')
+    body.tags←argsNs.tags
+:EndIf
+⍝ Form field: metadata
+:If (0≠argsNs.⎕NC'metadata')
+    body.metadata←argsNs.metadata
+:EndIf
+
+⍝ Build clientArgs
+clientArgs←( ⍝ Basically HttpCommand args in a nutshell
+    Command: 'post'
+    URL: '/files/upload'
+    Headers: headerParams
+    Params: body
+    ContentType: 'multipart/form-data'
+)
+
+:If 0≠⍴queryParams.⎕NL-⍳9
+    clientArgs.URL,←'?',c.∆.HttpCommand.UrlEncode queryParams
+:EndIf
+
+⍝ Run and handle response
+response←c.∆.utils.request clientArgs

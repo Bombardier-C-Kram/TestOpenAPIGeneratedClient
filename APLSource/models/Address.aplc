@@ -1,0 +1,55 @@
+:Class Address
+    ⍝ street: str, required
+    ⍝ city: str, required
+    ⍝ state: str, optional
+    ⍝ postalCode: str, optional
+    ⍝ country: str, required
+
+    :field public street ⍝ str
+    :field public city ⍝ str
+    :field public state ⍝ str
+    :field public postalCode ⍝ str
+    :field public country ⍝ str
+
+    ∇ make1 args
+        :Access public
+        :Implements constructor
+        ⍝ We will assume correct
+        ⎕THIS ⎕NS args ⍝ Copy args into ⎕THIS
+    ∇
+
+    ∇  build←FormatNS;build
+        :Access public
+        build←()
+        :If (isVarDefined 'street') 
+
+            build.street←street 
+        :EndIf
+
+        :If (isVarDefined 'city') 
+
+            build.city←city 
+        :EndIf
+
+        :If (isVarDefined 'state') 
+
+            build.state←state 
+        :EndIf
+
+        :If (isVarDefined 'postalCode') 
+
+            build.postalCode←postalCode 
+        :EndIf
+
+        :If (isVarDefined 'country') 
+
+            build.country←country 
+        :EndIf
+
+    ∇
+
+    ∇ b←isVarDefined varName;_
+        :Trap 0 ⋄ _←⎕VGET varName ⋄ b←1 ⋄ :Else ⋄ b←0 ⋄ :EndTrap
+        ⍝ TODO This is messy. Surely there is a better way
+    ∇
+:EndClass
