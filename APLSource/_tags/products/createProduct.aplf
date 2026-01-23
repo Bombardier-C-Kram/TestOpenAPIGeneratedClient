@@ -3,7 +3,7 @@ response←createProduct argsNs;headerParams;queryParams;body;clientArgs
 ⍝ Create product
 ⍝
 ⍝ Request Body:
-⍝   - application/json: CreateProductRequest schema (required)
+⍝   - application/json: createProductRequest schema (required)
 headerParams←⍬
 queryParams←()
 body←()

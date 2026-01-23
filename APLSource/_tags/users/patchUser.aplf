@@ -4,7 +4,7 @@ response←patchUser argsNs;headerParams;queryParams;body;clientArgs
 ⍝ Update specific fields of a user
 ⍝
 ⍝ Request Body:
-⍝   - application/json: PatchUserRequest schema (required)
+⍝   - application/json: patchUserRequest schema (required)
 headerParams←⍬
 queryParams←()
 body←()

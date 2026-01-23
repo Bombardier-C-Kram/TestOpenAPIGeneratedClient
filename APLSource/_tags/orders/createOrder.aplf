@@ -3,7 +3,7 @@ response←createOrder argsNs;headerParams;queryParams;body;clientArgs
 ⍝ Create a new order
 ⍝
 ⍝ Request Body:
-⍝   - application/json: CreateOrderRequest schema (required)
+⍝   - application/json: createOrderRequest schema (required)
 headerParams←⍬
 queryParams←()
 body←()

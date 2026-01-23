@@ -4,7 +4,7 @@ response←updateUser argsNs;headerParams;queryParams;body;clientArgs
 ⍝ Completely replace a user's information
 ⍝
 ⍝ Request Body:
-⍝   - application/json: UpdateUserRequest schema (required)
+⍝   - application/json: updateUserRequest schema (required)
 headerParams←⍬
 queryParams←()
 body←()

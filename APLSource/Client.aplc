@@ -1,5 +1,5 @@
 :Class Client
-    ⍝ Generated on 2026-01-22 14:51:32 UTC
+    ⍝ Generated on 2026-01-23 19:51:08 UTC
     ⍝ Comprehensive Test REST API - Version 1.0.0
     ⍝ A test REST API designed to cover most OpenAPI 3.0 specification features.
     ⍝ This API includes examples of all major HTTP methods, parameter types, 
@@ -8,13 +8,13 @@
     ⍝ Base URL: https://api.testapi.example.com/v1
 
     :field public ∆ ⍝ Client specific "stuff"
-    :field public health ⍝ Health tag
-    :field public users ⍝ Users tag
-    :field public files ⍝ Files tag
-    :field public products ⍝ Products tag
-    :field public orders ⍝ Orders tag
-    :field public auth ⍝ Auth tag
-    :field public search ⍝ Search tag
+    :field public health ⍝ health tag
+    :field public users ⍝ users tag
+    :field public files ⍝ files tag
+    :field public products ⍝ products tag
+    :field public orders ⍝ orders tag
+    :field public auth ⍝ auth tag
+    :field public search ⍝ search tag
 
     ∇ ∆make config
         :Access public
@@ -27,33 +27,33 @@
         ∆.config←⎕NS config
 
         ⍝ Some utility functions
-        ∆.utils←⎕NS ##.utils
+        ∆.utils←⎕NS (⊃∊⎕CLASS ⎕THIS).##.utils
         ∆.utils.c←⎕THIS
 
-        ∆.Version←##.Version
+        ∆.Version←(⊃∊⎕CLASS ⎕THIS).##.Version
 
-        ∆.HttpCommand←##.HttpCommand
+        ∆.HttpCommand←(⊃∊⎕CLASS ⎕THIS).##.HttpCommand
 
         ⍝ Initialize all tag namespaces
-        health←⎕NS ##._tags.health
+        health←⎕NS (⊃∊⎕CLASS ⎕THIS).##._tags.health
         health.c←⎕THIS
 
-        users←⎕NS ##._tags.users
+        users←⎕NS (⊃∊⎕CLASS ⎕THIS).##._tags.users
         users.c←⎕THIS
 
-        files←⎕NS ##._tags.files
+        files←⎕NS (⊃∊⎕CLASS ⎕THIS).##._tags.files
         files.c←⎕THIS
 
-        products←⎕NS ##._tags.products
+        products←⎕NS (⊃∊⎕CLASS ⎕THIS).##._tags.products
         products.c←⎕THIS
 
-        orders←⎕NS ##._tags.orders
+        orders←⎕NS (⊃∊⎕CLASS ⎕THIS).##._tags.orders
         orders.c←⎕THIS
 
-        auth←⎕NS ##._tags.auth
+        auth←⎕NS (⊃∊⎕CLASS ⎕THIS).##._tags.auth
         auth.c←⎕THIS
 
-        search←⎕NS ##._tags.search
+        search←⎕NS (⊃∊⎕CLASS ⎕THIS).##._tags.search
         search.c←⎕THIS
     ∇
 :EndClass

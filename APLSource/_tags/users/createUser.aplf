@@ -4,7 +4,7 @@ response←createUser argsNs;headerParams;queryParams;body;clientArgs
 ⍝ Create a new user with the provided information
 ⍝
 ⍝ Request Body:
-⍝   - application/json: CreateUserRequest schema (required)
+⍝   - application/json: createUserRequest schema (required)
 headerParams←⍬
 queryParams←()
 body←()

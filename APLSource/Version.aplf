@@ -1,4 +1,4 @@
 r←Version
 ⍝ Return the current version
 :Access public shared
-r←'Comprehensive Test REST API' '1.0.0' '2026-01-22'
+r←'Comprehensive Test REST API' '1.0.0' '2026-01-23'
