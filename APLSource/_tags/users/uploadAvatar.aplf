@@ -1,4 +1,4 @@
-response←uploadAvatar argsNs;headerParams;queryParams;body;clientArgs
+response←uploadAvatar argsNs;headerParams;queryParams;body;clientArgs;secSchemes
 ⍝ POST /users/{userId}/avatar
 ⍝ Upload user avatar
 ⍝ Upload an avatar image for a user
@@ -28,14 +28,22 @@ body←()
 ⍝ Build clientArgs
 clientArgs←( ⍝ Basically HttpCommand args in a nutshell
     Command: 'post'
-    URL: '/users/',argsNs.userId,'/avatar'
+    URL: ('/users/',(⍕argsNs.userId),'/avatar' ⋄ ())
     Headers: headerParams
     Params: body
     ContentType: 'multipart/form-data'
 )
 
+secSchemes←⍬
+secSchemes,←⊂'ApiKeyAuth'
+secSchemes,←⊂'BearerAuth'
+⍝ Auth fn
+clientArgs←clientArgs c.∆.utils.Authenticate secSchemes
+
+queryParams←queryParams ⎕NS 2⊃clientArgs.URL
+clientArgs.URL←⊃clientArgs.URL
 :If 0≠⍴queryParams.⎕NL-⍳9
-    clientArgs.URL,←'?',c.∆.HttpCommand.UrlEncode queryParams
+    clientArgs.URL,←'?',c.∆.HttpCommand.UrlEncode (queryParams)
 :EndIf
 
 ⍝ Run and handle response

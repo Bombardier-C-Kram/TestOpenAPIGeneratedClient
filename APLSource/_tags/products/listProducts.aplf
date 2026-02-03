@@ -1,4 +1,4 @@
-response←listProducts argsNs;headerParams;queryParams;body;clientArgs
+response←listProducts argsNs;headerParams;queryParams;body;clientArgs;secSchemes
 ⍝ GET /products
 ⍝ List products
 ⍝ Retrieve a list of products with advanced filtering
@@ -33,13 +33,20 @@ body←()
 ⍝ Build clientArgs
 clientArgs←( ⍝ Basically HttpCommand args in a nutshell
     Command: 'get'
-    URL: '/products'
+    URL: ('/products' ⋄ ())
     Headers: headerParams
-    ContentType: 'application/json'
 )
 
+secSchemes←⍬
+secSchemes,←⊂'ApiKeyAuth'
+secSchemes,←⊂'BearerAuth'
+⍝ Auth fn
+clientArgs←clientArgs c.∆.utils.Authenticate secSchemes
+
+queryParams←queryParams ⎕NS 2⊃clientArgs.URL
+clientArgs.URL←⊃clientArgs.URL
 :If 0≠⍴queryParams.⎕NL-⍳9
-    clientArgs.URL,←'?',c.∆.HttpCommand.UrlEncode queryParams
+    clientArgs.URL,←'?',c.∆.HttpCommand.UrlEncode (queryParams)
 :EndIf
 
 ⍝ Run and handle response

@@ -1,4 +1,4 @@
-response←getHealth argsNs;headerParams;queryParams;body;clientArgs
+response←getHealth argsNs;headerParams;queryParams;body;clientArgs;secSchemes
 ⍝ GET /health
 ⍝ Health check endpoint
 ⍝ Returns the health status of the API
@@ -11,13 +11,15 @@ body←()
 ⍝ Build clientArgs
 clientArgs←( ⍝ Basically HttpCommand args in a nutshell
     Command: 'get'
-    URL: '/health'
+    URL: ('/health' ⋄ ())
     Headers: headerParams
-    ContentType: 'application/json'
 )
 
+
+queryParams←queryParams ⎕NS 2⊃clientArgs.URL
+clientArgs.URL←⊃clientArgs.URL
 :If 0≠⍴queryParams.⎕NL-⍳9
-    clientArgs.URL,←'?',c.∆.HttpCommand.UrlEncode queryParams
+    clientArgs.URL,←'?',c.∆.HttpCommand.UrlEncode (queryParams)
 :EndIf
 
 ⍝ Run and handle response

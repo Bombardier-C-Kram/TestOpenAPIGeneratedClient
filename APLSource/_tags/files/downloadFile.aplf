@@ -1,4 +1,4 @@
-response←downloadFile argsNs;headerParams;queryParams;body;clientArgs
+response←downloadFile argsNs;headerParams;queryParams;body;clientArgs;secSchemes
 ⍝ GET /files/{fileId}/download
 ⍝ Download file
 headerParams←⍬
@@ -10,13 +10,20 @@ body←()
 ⍝ Build clientArgs
 clientArgs←( ⍝ Basically HttpCommand args in a nutshell
     Command: 'get'
-    URL: '/files/',argsNs.fileId,'/download'
+    URL: ('/files/',(⍕argsNs.fileId),'/download' ⋄ ())
     Headers: headerParams
-    ContentType: 'application/json'
 )
 
+secSchemes←⍬
+secSchemes,←⊂'ApiKeyAuth'
+secSchemes,←⊂'BearerAuth'
+⍝ Auth fn
+clientArgs←clientArgs c.∆.utils.Authenticate secSchemes
+
+queryParams←queryParams ⎕NS 2⊃clientArgs.URL
+clientArgs.URL←⊃clientArgs.URL
 :If 0≠⍴queryParams.⎕NL-⍳9
-    clientArgs.URL,←'?',c.∆.HttpCommand.UrlEncode queryParams
+    clientArgs.URL,←'?',c.∆.HttpCommand.UrlEncode (queryParams)
 :EndIf
 
 ⍝ Run and handle response

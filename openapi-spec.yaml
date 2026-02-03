@@ -59,7 +59,6 @@ paths:
                     status: "healthy"
                     timestamp: "2026-01-08T12:00:00Z"
                     version: "1.0.0"
-
   /users:
     get:
       tags:

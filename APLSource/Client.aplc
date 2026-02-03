@@ -1,5 +1,5 @@
 :Class Client
-    ⍝ Generated on 2026-01-23 19:51:08 UTC
+    ⍝ Generated on 2026-02-03 16:04:59 UTC
     ⍝ Comprehensive Test REST API - Version 1.0.0
     ⍝ A test REST API designed to cover most OpenAPI 3.0 specification features.
     ⍝ This API includes examples of all major HTTP methods, parameter types, 
@@ -25,6 +25,9 @@
 
         ∆←()
         ∆.config←⎕NS config
+
+        ∆.Cookies←⍬
+        ∆.Debug←0
 
         ⍝ Some utility functions
         ∆.utils←⎕NS (⊃∊⎕CLASS ⎕THIS).##.utils
